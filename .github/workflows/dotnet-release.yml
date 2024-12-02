@@ -78,6 +78,13 @@ jobs:
           prerelease: false
           artifacts: "BriefingRoom-V0.5.${{ steps.current-date.outputs.formattedTime }}.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Post to Discord
+        uses: tsickert/discord-webhook@v6.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          content: |
+            @everyone New Release out https://github.com/DCS-BR-Tools/briefing-room-for-dcs/releases/tag/beta-release-${{ steps.current-time.outputs.formattedTime }}-${{ github.run_id }}-${{ github.run_attempt }}
+            ${{ steps.change_log.outputs.log }}
 
   docker:
     name: docker build and push

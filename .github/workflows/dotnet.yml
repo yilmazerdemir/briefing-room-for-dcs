@@ -74,7 +74,11 @@ jobs:
         uses: tsickert/discord-webhook@v6.0.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: "TEST WIN New Beta Release out https://github.com/DCS-BR-Tools/briefing-room-for-dcs/releases/tag/beta-release-beta-release-${{ steps.current-time.outputs.formattedTime }}-${{ github.run_id }}-${{ github.run_attempt }}"
+          content: |
+            New Beta Release out https://github.com/DCS-BR-Tools/briefing-room-for-dcs/releases/tag/beta-release-${{ steps.current-time.outputs.formattedTime }}-${{ github.run_id }}-${{ github.run_attempt }}
+            ${{ steps.change_log.outputs.log }}
+
+
 
   docker:
     name: docker build and push
@@ -107,21 +111,15 @@ jobs:
       - name: Set Build Version
         id: build_version
         run: |
-          (Get-Content -path  src\BriefingRoom\BriefingRoom.cs -Raw) -replace '~BUILD_VERSION~','${{ steps.current-time.outputs.formattedTime }}' | Set-Content src\BriefingRoom\BriefingRoom.cs
+          sed -i's/~BUILD_VERSION~/${{ steps.current-time.outputs.formattedTime }}/g' src/BriefingRoom/BriefingRoom.cs
 
       - name: Set Release Version
         id: release_version
         run: |
-          (Get-Content -path  src\BriefingRoom\BriefingRoom.cs -Raw) -replace '~RELEASE_VERSION~','${{ steps.current-date.outputs.formattedTime }}' | Set-Content src\BriefingRoom\BriefingRoom.cs
+          sed -i's/~RELEASE_VERSION~/${{ steps.current-date.outputs.formattedTime }}/g' src/BriefingRoom/BriefingRoom.cs
     
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           push: true
           tags: johnharvey/dcs-briefing-room-web:beta-${{ steps.current-time.outputs.formattedTime }}
-
-      - name: Post to Discord
-        uses: tsickert/discord-webhook@v6.0.0
-        with:
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
-          content: "TEST New Beta Release out https://github.com/DCS-BR-Tools/briefing-room-for-dcs/releases/tag/beta-release-beta-release-${{ steps.current-time.outputs.formattedTime }}-${{ github.run_id }}-${{ github.run_attempt }}"
