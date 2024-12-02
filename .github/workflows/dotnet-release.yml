@@ -78,8 +78,8 @@ jobs:
           prerelease: false
           artifacts: "BriefingRoom-V0.5.${{ steps.current-date.outputs.formattedTime }}.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
-   
-   docker:
+
+  docker:
     name: docker build and push
     runs-on: ubuntu-latest
     steps:
@@ -93,7 +93,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-       - name: Get current time
+      - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
         with:

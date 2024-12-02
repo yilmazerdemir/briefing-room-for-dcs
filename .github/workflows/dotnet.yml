@@ -75,6 +75,7 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           content: "TEST WIN New Beta Release out https://github.com/DCS-BR-Tools/briefing-room-for-dcs/releases/tag/beta-release-beta-release-${{ steps.current-time.outputs.formattedTime }}-${{ github.run_id }}-${{ github.run_attempt }}"
+
   docker:
     name: docker build and push
     runs-on: ubuntu-latest
@@ -89,7 +90,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-       - name: Get current time
+      - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current-time
         with:
@@ -118,8 +119,7 @@ jobs:
         with:
           push: true
           tags: johnharvey/dcs-briefing-room-web:beta-${{ steps.current-time.outputs.formattedTime }}
-          tags: johnharvey/dcs-briefing-room-web:beta-${{ steps.current-time.outputs.formattedTime }}
-          tags: johnharvey/dcs-briefing-room-web:beta-${{ steps.current-time.outputs.formattedTime }}
+
       - name: Post to Discord
         uses: tsickert/discord-webhook@v6.0.0
         with:
