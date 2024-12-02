@@ -90,6 +90,8 @@ jobs:
     name: docker build and push
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3    
       - name: Set up Docker Buildx
@@ -117,12 +119,12 @@ jobs:
       - name: Set Build Version
         id: build_version
         run: |
-          (Get-Content -path  src\BriefingRoom\BriefingRoom.cs -Raw) -replace '~BUILD_VERSION~','${{ steps.current-time.outputs.formattedTime }}' | Set-Content src\BriefingRoom\BriefingRoom.cs
+          sed -i 's/~BUILD_VERSION~/${{ steps.current-time.outputs.formattedTime }}/g' ./src/BriefingRoom/BriefingRoom.cs
 
       - name: Set Release Version
         id: release_version
         run: |
-          (Get-Content -path  src\BriefingRoom\BriefingRoom.cs -Raw) -replace '~RELEASE_VERSION~','${{ steps.current-date.outputs.formattedTime }}' | Set-Content src\BriefingRoom\BriefingRoom.cs
+          sed -i 's/~RELEASE_VERSION~/${{ steps.current-date.outputs.formattedTime }}/g' ./src/BriefingRoom/BriefingRoom.cs
     
       - name: Build and push
         uses: docker/build-push-action@v6

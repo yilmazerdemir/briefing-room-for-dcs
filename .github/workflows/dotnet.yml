@@ -118,7 +118,7 @@ jobs:
       - name: Set Release Version
         id: release_version
         run: |
-          sed -i 's/~RELEASE_VERSION~/${{ steps.current-date.outputs.formattedTime }}/g' ./src/BriefingRoom/BriefingRoom.cs
+          sed -i 's/~RELEASE_VERSION~/BETA/g' ./src/BriefingRoom/BriefingRoom.cs
     
       - name: Build and push
         uses: docker/build-push-action@v6
