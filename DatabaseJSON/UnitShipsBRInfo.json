@@ -264,6 +264,15 @@
         "immovable": false
     },
     {
+        "type": "atconveyor",
+        "families": [
+            "ShipTransport",
+            "ShipCarrierSTOVL"
+        ],
+        "lowPolly": false,
+        "immovable": false
+    },
+    {
         "type": "Seawise_Giant",
         "families": [
             "ShipTransport",

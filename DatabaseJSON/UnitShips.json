@@ -1414,6 +1414,25 @@
         }
     },
     {
+        "type": "atconveyor",
+        "displayName": "SS Atlantic Conveyor",
+        "categories": [
+            {
+                "name": "AircraftCarrier"
+            },
+            {
+                "name": "Armed Ship"
+            }
+        ],
+        "module": "South_Atlantic_Assets",
+        "shape": "atconveyor",
+        "helicopterStorage": 1,
+        "planeStorage": 6,
+        "detectionRange": 100000,
+        "threatRange": 74000,
+        "operators": {}
+    },
+    {
         "type": "hms_invincible",
         "displayName": "HMS Invincible (R05)",
         "categories": [
