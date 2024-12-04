@@ -266,7 +266,7 @@ function AddUnit(key, data, map, mapName, inverted) {
     const coords = GetFromMapCoordData(data[0], mapName)
     group = mapGroups[GetGroup(key)]
     group.addLayer(new L.Marker(coords, {
-        title: GetTitle(key) + postfix,
+        title: GetTitle(key),
         icon: new L.DivIcon({
             html: `<img class="map_point_icon map_unit"src="_content/CommonGUI/img/nato-icons/${GetNatoIcon(key, inverted)}.svg" alt="${key}"/>`
         })
