@@ -1,4 +1,6 @@
-﻿using BriefingRoom4DCS.Mission;
+﻿using BriefingRoom4DCS.Data;
+using BriefingRoom4DCS.Mission;
+using BriefingRoom4DCS.Template;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -90,6 +92,50 @@ namespace BriefingRoom4DCS.Generator
             GeneratorTools.ReplaceKey(ref template, "Colour", colour.ToValue());
             GeneratorTools.ReplaceKey(ref template, "FillColour", fillColour.ToValue());
             mission.LuaDrawings.Add(template);
+        }
+
+        internal static Dictionary<string, List<double[]>> GetPreviewMapData(MissionTemplate template)
+        {
+            var mapData = new Dictionary<string, List<double[]>>();
+            List<DBEntryAirbase> airbases;
+            if(!template.ContextSituation.StartsWith(template.ContextTheater))
+            {
+                 airbases = (from DBEntryAirbase airbase in Database.Instance.GetAllEntries<DBEntryAirbase>()
+                            where Toolbox.StringICompare(airbase.Theater, template.ContextTheater)
+                            select airbase).ToList();
+                airbases.ForEach(airbase =>
+                {
+                   airbase.Coalition = Coalition.Neutral;
+                });
+            }
+            else {
+                var situationDB = Database.Instance.GetEntry<DBEntrySituation>(template.ContextSituation);
+                airbases = situationDB.GetAirbases(template.OptionsMission.Contains("InvertCountriesCoalitions"));
+                var invertCoalition = template.OptionsMission.Contains("InvertCountriesCoalitions");
+                var red = situationDB.GetRedZones(invertCoalition);
+                var blue = situationDB.GetBlueZones(invertCoalition);
+                foreach (var zone in red)
+                {
+                    mapData.Add($"RED_{red.IndexOf(zone)}", zone.Select(x => x.ToArray()).ToList());
+                }
+                foreach (var zone in blue)
+                {
+                    mapData.Add($"BLUE_{blue.IndexOf(zone)}", zone.Select(x => x.ToArray()).ToList());
+                }
+            }
+
+            airbases.ForEach(airbase =>
+            {
+                var side = "Neutral";
+                if(airbase.Coalition == Coalition.Blue)
+                    side = "Blue";
+                else if(airbase.Coalition == Coalition.Red)
+                    side = "Enemy";
+                mapData.Add($"{side}_AIRBASE_{airbase.ID}_NAME_{airbase.Name}", new List<double[]> { airbase.Coordinates.ToArray() });
+                if(airbase.ID == template.FlightPlanTheaterStartingAirbase || template.AircraftPackages.Any(x => x.StartingAirbase == airbase.ID))
+                    mapData.Add($"PLAYER_AIRBASE_{airbase.ID}", new List<double[]> { airbase.Coordinates.ToArray() });
+            });
+            return mapData;
         }
 
         internal static void AddTheaterZones(ref DCSMission mission)

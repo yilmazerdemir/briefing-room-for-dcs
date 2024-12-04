@@ -938,7 +938,8 @@
 
     private async Task RenderHintMap(string hintKey)
     {
-        await JSRuntime.InvokeVoidAsync("RenderHintMap", Template.ContextTheater, hintKey);
+        var supporingData = briefingRoom.GetMapSupportingData(Template);
+        await JSRuntime.InvokeVoidAsync("RenderHintMap", Template.ContextTheater, hintKey, supporingData);
     }
 
     private string tab = "context-&-enviroment";

@@ -72,7 +72,7 @@ async function SetHintPositions(positionsDict, map) {
 }
 
 
-async function RenderHintMap(map, hintKey) {
+async function RenderHintMap(map, hintKey, mapData) {
     //Show hint map
     if (hintKey) {
         var bsOffcanvas = new bootstrap.Offcanvas(document.getElementById('offcanvasBottom'))
@@ -95,6 +95,14 @@ async function RenderHintMap(map, hintKey) {
     }
     Object.keys(hintPositions).forEach(key => {
         createHintMarker(key, map)
+    })
+    Object.keys(mapData).forEach(key => {
+        data = mapData[key]
+        if (data.length == 1) {
+            AddIcon(key, data, leafHintMap, map)
+        } else {
+            AddZone(key, data, leafHintMap, map)
+        }
     })
     leafHintMap.setView([0, 0], 6.5);
     GetCenterView(map, leafHintMap)
@@ -220,8 +228,13 @@ function AddIcon(key, data, map, mapName, inverted) {
     } else if (key.includes("WAYPOINT_")) {
         AddWaypoint(key, data, map, mapName)
     } else {
+        let postfix = ""
+        if(key.includes("NAME_"))
+        {
+            postfix = ` - ${key.split("NAME_", 2)[1]}`
+        }
         new L.Marker(GetFromMapCoordData(data[0], mapName), {
-            title: GetTitle(key),
+            title: GetTitle(key) + postfix,
             icon: new L.DivIcon({
                 html: `<img class="map_point_icon" src="_content/CommonGUI/img/nato-icons/${GetNatoIcon(key, inverted)}.svg" alt="${key}"/>`
             }),
@@ -253,7 +266,7 @@ function AddUnit(key, data, map, mapName, inverted) {
     const coords = GetFromMapCoordData(data[0], mapName)
     group = mapGroups[GetGroup(key)]
     group.addLayer(new L.Marker(coords, {
-        title: GetTitle(key),
+        title: GetTitle(key) + postfix,
         icon: new L.DivIcon({
             html: `<img class="map_point_icon map_unit"src="_content/CommonGUI/img/nato-icons/${GetNatoIcon(key, inverted)}.svg" alt="${key}"/>`
         })
