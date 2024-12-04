@@ -83,7 +83,7 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           content: |
-            @everyone New Release out https://github.com/DCS-BR-Tools/briefing-room-for-dcs/releases/tag/beta-release-${{ steps.current-time.outputs.formattedTime }}-${{ github.run_id }}-${{ github.run_attempt }}
+            @everyone New Release out https://github.com/DCS-BR-Tools/briefing-room-for-dcs/releases/tag/release-${{ steps.current-date.outputs.formattedTime }}-${{ steps.current-time.outputs.formattedTime }}-${{ github.run_id }}-${{ github.run_attempt }}
             ${{ steps.change_log.outputs.log }}
 
   docker:
