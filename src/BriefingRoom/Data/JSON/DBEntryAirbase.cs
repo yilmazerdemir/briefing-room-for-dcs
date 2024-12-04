@@ -66,15 +66,12 @@ namespace BriefingRoom4DCS.Data
             var data = JsonConvert.DeserializeObject<List<Airbase>>(File.ReadAllText(filepath));
             foreach (var airbase in data)
             {
-                var id = $"{airbase.theatre}{airbase.typeName}";
-                if(airbase.typeName == "H") // Hack for Syria Heliports marked with just H
-                {
-                    id = $"{airbase.theatre}{airbase.typeName}{airbase.ID}";
-                }
+                var isH = airbase.typeName == "H";
+                var id = isH ? $"{airbase.theatre}{airbase.typeName}{airbase.ID}" : $"{airbase.theatre}{airbase.typeName}";
                 itemMap.Add(id, new DBEntryAirbase
                 {
                     ID = id,
-                    UIDisplayName = new LanguageString(LangDB, GetLanguageClassName(typeof(DBEntryAirbase)), id, "displayName",airbase.displayName),
+                    UIDisplayName = new LanguageString(LangDB, GetLanguageClassName(typeof(DBEntryAirbase)), id, "displayName", (isH ? $"{airbase.typeName}{airbase.ID}" : airbase.displayName)),
                     ATC = String.Join("/", airbase.airdromeData.ATC.Select(x => GeneratorTools.FormatRadioFrequency(x))),
                     Coordinates = new Coordinates(airbase.pos.DCS.x, airbase.pos.DCS.z),
                     DCSID = airbase.ID,
