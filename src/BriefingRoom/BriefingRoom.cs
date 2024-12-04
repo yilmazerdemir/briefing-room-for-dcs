@@ -227,7 +227,7 @@ namespace BriefingRoom4DCS
 
         public Dictionary<string, List<double[]>> GetMapSupportingData(MissionTemplate template)
         {
-            return DrawingMaker.GetPreviewMapData(template);
+            return DrawingMaker.GetPreviewMapData(template, LanguageKey);
         }
 
         public static string GetBriefingRoomRootPath() { return BRPaths.ROOT; }

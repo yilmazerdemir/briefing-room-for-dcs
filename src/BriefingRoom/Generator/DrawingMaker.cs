@@ -94,7 +94,7 @@ namespace BriefingRoom4DCS.Generator
             mission.LuaDrawings.Add(template);
         }
 
-        internal static Dictionary<string, List<double[]>> GetPreviewMapData(MissionTemplate template)
+        internal static Dictionary<string, List<double[]>> GetPreviewMapData(MissionTemplate template, string langKey)
         {
             var mapData = new Dictionary<string, List<double[]>>();
             List<DBEntryAirbase> airbases;
@@ -131,7 +131,7 @@ namespace BriefingRoom4DCS.Generator
                     side = "Blue";
                 else if(airbase.Coalition == Coalition.Red)
                     side = "Enemy";
-                mapData.Add($"{side}_AIRBASE_{airbase.ID}_NAME_{airbase.Name}", new List<double[]> { airbase.Coordinates.ToArray() });
+                mapData.Add($"{side}_AIRBASE_{airbase.ID}_NAME_{airbase.UIDisplayName.Get(langKey)}", new List<double[]> { airbase.Coordinates.ToArray() });
                 if(airbase.ID == template.FlightPlanTheaterStartingAirbase || template.AircraftPackages.Any(x => x.StartingAirbase == airbase.ID))
                     mapData.Add($"PLAYER_AIRBASE_{airbase.ID}", new List<double[]> { airbase.Coordinates.ToArray() });
             });
