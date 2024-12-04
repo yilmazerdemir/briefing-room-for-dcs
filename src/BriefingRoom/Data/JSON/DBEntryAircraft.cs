@@ -91,11 +91,11 @@ namespace BriefingRoom4DCS.Data
                 var supportInfo = supportData[id];
 
 
-
+                bool modAircraft = !string.IsNullOrEmpty(aircraft.module) && !DBEntryDCSMod.CORE_MODS.Contains(aircraft.module);
                 var DBaircraft = new DBEntryAircraft
                 {
                     ID = id,
-                    UIDisplayName = new LanguageString(LangDB, GetLanguageClassName(typeof(DBEntryAircraft)), id, "displayName",aircraft.displayName),
+                    UIDisplayName = new LanguageString(LangDB, GetLanguageClassName(typeof(DBEntryAircraft)), id, "displayName", modAircraft ? $"{aircraft.displayName} [{aircraft.module}] " : aircraft.displayName),
                     DCSID = aircraft.type,
                     Liveries = aircraft.paintSchemes.ToDictionary(pair => (Country)Enum.Parse(typeof(Country), pair.Key.Replace(" ", ""), true), pair => pair.Value),
                     Operators = GetOperationalCountries(aircraft),

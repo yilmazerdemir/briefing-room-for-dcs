@@ -71,7 +71,8 @@ namespace BriefingRoom4DCS.Data
             "Massun92-Assetpack",
             "F-4E AI by Heatblur Simulations",
             "OH58D AI by Polychop-Simulations",
-            "CH-47F bl.1 AI"
+            "CH-47F bl.1 AI",
+            "Yak-52 AI by Eagle Dynamics",
         };
 
         internal string Module { get; private set; }
