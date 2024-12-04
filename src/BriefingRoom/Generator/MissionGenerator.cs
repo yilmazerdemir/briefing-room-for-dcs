@@ -256,7 +256,7 @@ namespace BriefingRoom4DCS.Generator
             mission.PopulatedAirbaseIds[mission.TemplateRecord.ContextPlayerCoalition].Add(mission.PlayerAirbase.DCSID);
             if (mission.PlayerAirbase.DCSID > 0)
             {
-                mission.MapData.Add($"AIRBASE_HOME", new List<double[]> { mission.PlayerAirbase.Coordinates.ToArray() });
+                mission.MapData.Add($"AIRBASE_HOME_NAME_{mission.PlayerAirbase.UIDisplayName.Get(mission.LangKey)}", new List<double[]> { mission.PlayerAirbase.Coordinates.ToArray() });
                 mission.Briefing.AddItem(DCSMissionBriefingItemType.Airbase, $"{mission.PlayerAirbase.Name}\t{mission.PlayerAirbase.Runways}\t{mission.PlayerAirbase.ATC}\t{mission.PlayerAirbase.ILS}\t{mission.PlayerAirbase.TACAN}");
             }
             MissionGeneratorAirbases.SelectStartingAirbaseForPackages(ref mission);

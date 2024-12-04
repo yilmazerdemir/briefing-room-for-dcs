@@ -313,7 +313,7 @@ namespace BriefingRoom4DCS.Generator
                 var midPoint = Coordinates.Lerp(coordinates, coordinates2, 0.4);
                 extraSettings.AddIfKeyUnused("GroupMidX", midPoint.X);
                 extraSettings.AddIfKeyUnused("GroupMidY", midPoint.Y);
-                mission.MapData.AddIfKeyUnused($"AIRBASE_AI_{groupSide}_${airbase.Name}", new List<double[]> { airbase.Coordinates.ToArray() });
+                mission.MapData.AddIfKeyUnused($"AIRBASE_AI_{groupSide}_NAME_{airbase.UIDisplayName.Get(mission.LangKey)}", new List<double[]> { airbase.Coordinates.ToArray() });
                 return airbase.Name;
             }
             return null;

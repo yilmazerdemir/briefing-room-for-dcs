@@ -124,7 +124,7 @@ namespace BriefingRoom4DCS.Generator
                         extraSettings.AddIfKeyUnused("GroupAirbaseID", airbase.DCSID);
                         mission.PopulatedAirbaseIds[coalition].Add(airbase.DCSID);
                         extraSettings.AddIfKeyUnused("UnitCoords", parkingSpotCoordinatesList);
-                        mission.MapData.AddIfKeyUnused($"AIRBASE_AI_{side}_${airbase.Name}", new List<double[]> { airbase.Coordinates.ToArray() });
+                        mission.MapData.AddIfKeyUnused($"AIRBASE_AI_{side}_NAME_{airbase.UIDisplayName.Get(mission.LangKey)}", new List<double[]> { airbase.Coordinates.ToArray() });
                     } catch (BriefingRoomException e)
                     {
                         BriefingRoom.PrintTranslatableWarning(mission.LangKey, "CAPCannotBeSpawnedAirport", e.Message);

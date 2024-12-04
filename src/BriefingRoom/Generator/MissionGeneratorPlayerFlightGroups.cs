@@ -119,7 +119,7 @@ namespace BriefingRoom4DCS.Generator
 
                 if (country == Country.CombinedJointTaskForcesBlue || country == Country.CombinedJointTaskForcesRed)
                     country = coalition == Coalition.Blue ? Country.CombinedJointTaskForcesBlue : Country.CombinedJointTaskForcesRed;
-                mission.MapData.AddIfKeyUnused($"AIRBASE_Enemy_${hostileAirbase.Name}", new List<double[]> { hostileAirbase.Coordinates.ToArray() });
+                mission.MapData.AddIfKeyUnused($"AIRBASE_Enemy_NAME_{hostileAirbase.UIDisplayName.Get(mission.LangKey)}", new List<double[]> { hostileAirbase.Coordinates.ToArray() });
             }
             else // Land airbase take off
             {
