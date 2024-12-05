@@ -20,4 +20,4 @@ COPY DatabaseJSON DatabaseJSON
 COPY CustomConfigs CustomConfigs
 COPY Media Media
 COPY Include Include
-ENTRYPOINT ["dotnet", "BriefingRoomWeb.dll"]
+ENTRYPOINT ["dotnet", "Web.dll"]
