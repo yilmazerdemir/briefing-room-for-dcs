@@ -64,7 +64,7 @@ namespace BriefingRoom4DCS.Generator
             var prefixedUnitName = unitName;
             if (isUsingSkynet && unitDB.Families[0] == UnitFamily.PlaneAWACS)
                 prefixedUnitName = SetSkyNetPrefix(unitName, side);
-            return new UnitCallsign(groupName, prefixedUnitName/*, onboardNum*/, new Dictionary<object, object> { { 1, callSignEnum[0] }, { 2, randomNumber }, { "name", unitName.Replace(" ", "") } });
+            return new UnitCallsign(groupName, prefixedUnitName/*, onboardNum*/, new Dictionary<object, object> { { 1, int.Parse(callSignEnum[0]) }, { 2, randomNumber }, { "name", unitName.Replace(" ", "") }, { 4, unitName.Replace(" ", "") } });
         }
 
 
@@ -100,7 +100,7 @@ namespace BriefingRoom4DCS.Generator
             var groupName = $"{splitOverrideName[1]} {overrideNumber}";
             var unitName = groupName + " $INDEX$";
             mission.NATOCallsigns.Add(groupName);
-            return new UnitCallsign(groupName, unitName/*, onboardNum*/, new Dictionary<object, object> { { 1, int.Parse(splitOverrideName[0]) }, { 2, overrideNumber }, { "name", unitName.Replace(" ", "") } });
+            return new UnitCallsign(groupName, unitName/*, onboardNum*/, new Dictionary<object, object> { { 1, int.Parse(splitOverrideName[0]) }, { 2, overrideNumber }, { "name", unitName.Replace(" ", "") }, {4, unitName.Replace(" ", "") } });
         }
 
         private static string SetSkyNetPrefix(string unitName, Side side)
