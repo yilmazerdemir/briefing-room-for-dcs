@@ -9,11 +9,8 @@
     },
     {
         "type": "VINSON",
-        "families": [
-            "ShipCarrierCATOBAR",
-            "ShipCarrierSTOVL"
-        ],
-        "lowPolly": false,
+        "families": [],
+        "lowPolly": true,
         "immovable": false
     },
     {
