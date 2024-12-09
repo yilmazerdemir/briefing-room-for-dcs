@@ -30,7 +30,6 @@ namespace BriefingRoom4DCS.Data
     internal class DBEntryStatic : DBEntryJSONUnit
     {
 
-        internal string ShapeName { get; init; }
         internal int ParkingSpots { get; init; }
 
         protected override bool OnLoad(string o)
@@ -59,7 +58,7 @@ namespace BriefingRoom4DCS.Data
                     UIDisplayName = new LanguageString(LangDB, GetLanguageClassName(typeof(DBEntryStatic)), id, "displayName", @static.displayName),
                     DCSID = @static.type,
                     Operators = new Dictionary<Country, (Template.Decade start, Template.Decade end)> { { Country.ALL, (Template.Decade.Decade1940, Template.Decade.Decade2020) } },
-                    ShapeName = @static.shapeName,
+                    Shape = @static.shapeName,
                     Families = supportInfo.families.Select(x => (UnitFamily)Enum.Parse(typeof(UnitFamily), x, true)).ToArray(),
                     LowPolly = supportInfo.lowPolly,
                     Module = @static.module,

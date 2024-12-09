@@ -30,8 +30,6 @@ namespace BriefingRoom4DCS.Data
     internal class DBEntryCargo : DBEntryJSONUnit
     {
 
-        internal string ShapeName { get; init; }
-
         protected override bool OnLoad(string o)
         {
             throw new NotImplementedException();
@@ -50,7 +48,7 @@ namespace BriefingRoom4DCS.Data
                     UIDisplayName = new LanguageString(LangDB, GetLanguageClassName(typeof(DBEntryCargo)), id, "displayName", @static.displayName),
                     DCSID = @static.type,
                     Operators = new Dictionary<Country, (Template.Decade start, Template.Decade end)> { { Country.ALL, (Template.Decade.Decade1940, Template.Decade.Decade2020) } },
-                    ShapeName = @static.shapeName,
+                    Shape = @static.shapeName,
                     Module = @static.module,
                     Families = new UnitFamily[] { UnitFamily.Cargo }
                 });
