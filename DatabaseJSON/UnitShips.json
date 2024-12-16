@@ -1430,7 +1430,12 @@
         "planeStorage": 6,
         "detectionRange": 100000,
         "threatRange": 74000,
-        "operators": {}
+        "operators": {
+            "ALL": [
+                1970,
+                2020
+            ]
+        }
     },
     {
         "type": "hms_invincible",
