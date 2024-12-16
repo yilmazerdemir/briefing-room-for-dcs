@@ -225,9 +225,14 @@ namespace BriefingRoom4DCS
             return CampaignGenerator.Generate(LanguageKey, template);
         }
 
-        public Dictionary<string, List<double[]>> GetMapSupportingData(MissionTemplate template)
+        public Dictionary<string, List<double[]>> GetMapSupportingMapData(MissionTemplate template)
         {
             return DrawingMaker.GetPreviewMapData(template, LanguageKey);
+        }
+
+        public Dictionary<string, List<double[]>> GetAirbasesMapData(string mapID)
+        {
+            return DrawingMaker.GetBasicAirbasesMapData(mapID, LanguageKey);
         }
 
         public static string GetBriefingRoomRootPath() { return BRPaths.ROOT; }

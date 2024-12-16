@@ -98,17 +98,12 @@ namespace BriefingRoom4DCS.Generator
         {
             var mapData = new Dictionary<string, List<double[]>>();
             List<DBEntryAirbase> airbases;
-            if(!template.ContextSituation.StartsWith(template.ContextTheater))
+            if (!template.ContextSituation.StartsWith(template.ContextTheater))
             {
-                 airbases = (from DBEntryAirbase airbase in Database.Instance.GetAllEntries<DBEntryAirbase>()
-                            where Toolbox.StringICompare(airbase.Theater, template.ContextTheater)
-                            select airbase).ToList();
-                airbases.ForEach(airbase =>
-                {
-                   airbase.Coalition = Coalition.Neutral;
-                });
+                airbases = GetAirbasesForMap(template.ContextTheater);
             }
-            else {
+            else
+            {
                 var situationDB = Database.Instance.GetEntry<DBEntrySituation>(template.ContextSituation);
                 airbases = situationDB.GetAirbases(template.OptionsMission.Contains("InvertCountriesCoalitions"));
                 var invertCoalition = template.OptionsMission.Contains("InvertCountriesCoalitions");
@@ -127,14 +122,21 @@ namespace BriefingRoom4DCS.Generator
             airbases.ForEach(airbase =>
             {
                 var side = "Neutral";
-                if(airbase.Coalition == Coalition.Blue)
+                if (airbase.Coalition == Coalition.Blue)
                     side = "Blue";
-                else if(airbase.Coalition == Coalition.Red)
+                else if (airbase.Coalition == Coalition.Red)
                     side = "Enemy";
                 mapData.Add($"{side}_AIRBASE_{airbase.ID}_NAME_{airbase.UIDisplayName.Get(langKey)}", new List<double[]> { airbase.Coordinates.ToArray() });
-                if(airbase.ID == template.FlightPlanTheaterStartingAirbase || template.AircraftPackages.Any(x => x.StartingAirbase == airbase.ID))
+                if (airbase.ID == template.FlightPlanTheaterStartingAirbase || template.AircraftPackages.Any(x => x.StartingAirbase == airbase.ID))
                     mapData.Add($"PLAYER_AIRBASE_{airbase.ID}", new List<double[]> { airbase.Coordinates.ToArray() });
             });
+            return mapData;
+        }
+
+        internal static Dictionary<string, List<double[]>> GetBasicAirbasesMapData(string mapID, string langKey)
+        {
+            var mapData = new Dictionary<string, List<double[]>>();
+            GetAirbasesForMap(mapID).ForEach(airbase => mapData.Add($"Neutral_AIRBASE_{airbase.ID}_NAME_{airbase.UIDisplayName.Get(langKey)}", new List<double[]> { airbase.Coordinates.ToArray() }));
             return mapData;
         }
 
@@ -237,6 +239,18 @@ namespace BriefingRoom4DCS.Generator
                 index++;
             }
             return luaDrawings;
+        }
+
+        private static List<DBEntryAirbase> GetAirbasesForMap(string mapID)
+        {
+            var airbases = (from DBEntryAirbase airbase in Database.Instance.GetAllEntries<DBEntryAirbase>()
+                            where Toolbox.StringICompare(airbase.Theater, mapID)
+                            select airbase).ToList();
+            airbases.ForEach(airbase =>
+            {
+                airbase.Coalition = Coalition.Neutral;
+            });
+            return airbases;
         }
     }
 }

@@ -6,7 +6,7 @@ const situationMapLayers = {
 
 let leafSituationMap, drawnItems,SPGroup;
 
-async function RenderEditorMap(map, spawnPoints) {
+async function RenderEditorMap(map, spawnPoints, airbaseData) {
     console.log("SpawnPoints", spawnPoints.length)
     if (leafSituationMap) {
         leafSituationMap.off();
@@ -24,6 +24,11 @@ async function RenderEditorMap(map, spawnPoints) {
     } catch (error) {
         console.warn(error)
     }
+
+    Object.keys(airbaseData).forEach(key => {
+        data = airbaseData[key]
+        AddIcon(key, data, leafSituationMap, map)
+    })
 
     GetCenterView(map, leafSituationMap)
     DrawMapBounds(map, leafSituationMap)
